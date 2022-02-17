@@ -23,7 +23,7 @@ public class StudentController {
         return ResponseEntity.ok(newStudent);
     }
 
-    @GetMapping("{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<Student> getStudent(@PathVariable Long id) {
         Student student = studentService.getStudent(id);
         if (student == null) {
