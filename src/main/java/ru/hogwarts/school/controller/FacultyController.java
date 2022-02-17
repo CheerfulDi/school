@@ -23,7 +23,7 @@ public class FacultyController {
         return ResponseEntity.ok(newFaculty);
     }
 
-    @GetMapping("{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<Faculty> getFaculty(@PathVariable Long id) {
         Faculty faculty = facultyService.getFaculty(id);
         if (faculty == null) {
@@ -32,7 +32,7 @@ public class FacultyController {
         return ResponseEntity.ok(faculty);
     }
 
-    @GetMapping("{color}")
+    @GetMapping("/color/{color}")
     public ResponseEntity<Collection<Faculty>> getFacultiesByColor(@PathVariable String color) {
         Collection<Faculty> faculties = facultyService.getFacultiesByColor(color);
         if (faculties == null) {

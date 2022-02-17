@@ -32,7 +32,7 @@ public class StudentController {
         return ResponseEntity.ok(student);
     }
 
-    @GetMapping("{age}")
+    @GetMapping("/age/{age}")
     public ResponseEntity<Collection<Student>> getStudentsByAge(@PathVariable int age) {
         Collection<Student> students = studentService.getStudentsByAge(age);
         if (students == null) {
