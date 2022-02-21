@@ -8,4 +8,7 @@ import java.util.Set;
 public interface StudentRepository extends JpaRepository<Student, Long> {
 
     Set<Student> findByAge(int age);
+
+    Set<Student> findByAgeBetween(int min, int max);
+
 }
