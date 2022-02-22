@@ -34,7 +34,7 @@ public class FacultyController {
 
     @GetMapping("/sort")
     public ResponseEntity<Collection<Faculty>> getFaculties(@RequestParam(required = false) String color,
-                                                                   @RequestParam(required = false) String name) {
+                                                            @RequestParam(required = false) String name) {
         Collection<Faculty> faculties = facultyService.getFaculties(color, name);
 
         if (faculties == null) {
