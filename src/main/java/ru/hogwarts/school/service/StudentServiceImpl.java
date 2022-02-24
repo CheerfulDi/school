@@ -38,8 +38,8 @@ public class StudentServiceImpl implements StudentService{
 
     @Override
     public Collection<Student> getStudentsByAge(int age) {
-            return studentRepository.findByAge(age);
-        }
+        return studentRepository.findByAge(age);
+    }
 
     @Override
     public Collection<Student> getStudentsByAgeBetween(int min, int max) {
