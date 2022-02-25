@@ -88,7 +88,7 @@ public class AvatarServiceImpl implements AvatarService{
         if (studentId != null) {
             return avatarRepository.findByStudentId(studentId);
         }
-        return null;
+        return new Avatar();
     }
 
 }
