@@ -7,9 +7,8 @@ import java.io.IOException;
 
 public interface AvatarService {
 
-    void uploadAvatar(Long studentId, MultipartFile file) throws IOException;
+    Long uploadAvatar(Long studentId, MultipartFile file) throws IOException;
 
-    Avatar findAvatar(Long studentId);
-
+    Avatar findAvatar(Long id);
 
 }
