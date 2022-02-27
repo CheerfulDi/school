@@ -34,13 +34,13 @@ public class AvatarServiceImpl implements AvatarService{
     }
 
     @Override
-    public Long uploadAvatar(Long studentId, MultipartFile avatarFile) throws IOException {
+    public long uploadAvatar(Long studentId, MultipartFile avatarFile) throws IOException {
         Student student = studentService.getStudent(studentId);
         if (student == null) {
             throw new IllegalArgumentException("Student with this id doesn't exist: " + studentId);
         }
 
-        java.nio.file.Path filePath = createImageFilePath(avatarFile, student);
+        Path filePath = createImageFilePath(avatarFile, student);
         saveImageToFile(avatarFile, filePath);
 
         Avatar avatar = findOrCreateAvatar(studentId);
@@ -61,7 +61,7 @@ public class AvatarServiceImpl implements AvatarService{
         return filePath;
     }
 
-    private void saveImageToFile(MultipartFile avatarFile, java.nio.file.Path filePath) throws IOException {
+    private void saveImageToFile(MultipartFile avatarFile, Path filePath) throws IOException {
         try (
             BufferedInputStream bis = new BufferedInputStream(avatarFile.getInputStream(), IMAGE_BLOCK_BUFFER_SIZE);
             BufferedOutputStream bos = new BufferedOutputStream(Files.newOutputStream(filePath, CREATE_NEW), IMAGE_BLOCK_BUFFER_SIZE)
