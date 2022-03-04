@@ -68,12 +68,12 @@ public class Faculty {
         if (this == o) return true;
         if (!(o instanceof Faculty)) return false;
         Faculty faculty = (Faculty) o;
-        return getId().equals(faculty.getId()) && getName().equals(faculty.getName()) && getColor().equals(faculty.getColor()) && getStudents().equals(faculty.getStudents());
+        return getId().equals(faculty.getId()) && getName().equals(faculty.getName()) && getColor().equals(faculty.getColor());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getName(), getColor(), getStudents());
+        return Objects.hash(getId(), getName(), getColor());
     }
 
     @Override
@@ -82,7 +82,6 @@ public class Faculty {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", color='" + color + '\'' +
-                ", students=" + students +
                 '}';
     }
 }
