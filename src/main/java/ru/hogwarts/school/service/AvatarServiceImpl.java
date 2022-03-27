@@ -1,6 +1,7 @@
 package ru.hogwarts.school.service;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import ru.hogwarts.school.model.Avatar;
@@ -8,9 +9,11 @@ import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.repository.AvatarRepository;
 
 import javax.transaction.Transactional;
+import java.awt.print.Pageable;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.List;
 import java.util.Objects;
 
 import static java.nio.file.StandardOpenOption.CREATE_NEW;
@@ -52,6 +55,12 @@ public class AvatarServiceImpl implements AvatarService{
     @Override
     public Avatar findAvatar(Long id) {
         return avatarRepository.getById(id);
+    }
+
+    @Override
+    public List<Avatar> getAvatarPage(int page, int size) {
+        PageRequest pageRequest = PageRequest.of(page - 1, size);
+        return avatarRepository.findAll(pageRequest).toList();
     }
 
     private Path createImageFilePath(MultipartFile avatarFile, Student student) throws IOException {
