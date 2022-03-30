@@ -71,7 +71,6 @@ public class AvatarServiceImpl implements AvatarService{
     }
 
     private Path createImageFilePath(MultipartFile avatarFile, Student student) throws IOException {
-        logger.info("Was invoked method to create an image file path");
         Path filePath = Path.of(avatarsDir, student + getExtension(Objects.requireNonNull(avatarFile.getOriginalFilename())));
         Files.createDirectories(filePath.getParent());
         Files.deleteIfExists(filePath);
@@ -79,7 +78,6 @@ public class AvatarServiceImpl implements AvatarService{
     }
 
     private void saveImageToFile(MultipartFile avatarFile, Path filePath) throws IOException {
-        logger.info("Was invoked method to save an image to file");
         try (
             BufferedInputStream bis = new BufferedInputStream(avatarFile.getInputStream(), IMAGE_BLOCK_BUFFER_SIZE);
             BufferedOutputStream bos = new BufferedOutputStream(Files.newOutputStream(filePath, CREATE_NEW), IMAGE_BLOCK_BUFFER_SIZE)
@@ -89,7 +87,6 @@ public class AvatarServiceImpl implements AvatarService{
     }
 
     private void updateAvatar(MultipartFile avatarFile, Student student, Path filePath, Avatar avatar) throws IOException {
-        logger.info("Was invoked method to update an avatar");
         avatar.setStudent(student);
         avatar.setFilePath(filePath.toString());
         avatar.setFileSize(avatarFile.getSize());
@@ -98,12 +95,10 @@ public class AvatarServiceImpl implements AvatarService{
     }
 
     private Avatar findOrCreateAvatar(Long id) {
-        logger.info("Was invoked method to find an avatar or create a new one");
         return avatarRepository.findByStudentId(id).orElse(new Avatar());
     }
 
     private String getExtension(String fileName) {
-        logger.info("Was invoked method to get extension");
         return fileName.substring(fileName.lastIndexOf(".") + 1);
     }
 

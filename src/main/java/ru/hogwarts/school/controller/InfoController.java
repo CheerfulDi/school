@@ -6,14 +6,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/getPort")
+@RequestMapping("/info")
 public class InfoController {
 
-    @Value("server.port=8080")
-    private String port;
+    @Value("${server.port}")
+    private int port;
 
-    @GetMapping
-    public String getPort() {
+    @GetMapping("/port")
+    public int getPort() {
         return port;
     }
 }
