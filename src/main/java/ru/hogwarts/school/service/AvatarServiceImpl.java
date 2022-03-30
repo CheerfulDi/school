@@ -1,5 +1,7 @@
 package ru.hogwarts.school.service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -9,7 +11,6 @@ import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.repository.AvatarRepository;
 
 import javax.transaction.Transactional;
-import java.awt.print.Pageable;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -21,6 +22,8 @@ import static java.nio.file.StandardOpenOption.CREATE_NEW;
 @Service
 @Transactional
 public class AvatarServiceImpl implements AvatarService{
+
+    Logger logger = LoggerFactory.getLogger(AvatarServiceImpl.class);
 
     @Value("${students.avatars.dir.path}")
     private String avatarsDir;
@@ -38,8 +41,10 @@ public class AvatarServiceImpl implements AvatarService{
 
     @Override
     public long uploadAvatar(Long studentId, MultipartFile avatarFile) throws IOException {
+        logger.info("Was invoked method to upload an avatar");
         Student student = studentService.getStudent(studentId);
         if (student == null) {
+            logger.error("Student with this id doesn't exist: " + studentId);
             throw new IllegalArgumentException("Student with this id doesn't exist: " + studentId);
         }
 
@@ -54,16 +59,19 @@ public class AvatarServiceImpl implements AvatarService{
 
     @Override
     public Avatar findAvatar(Long id) {
+        logger.info("Was invoked method to find an avatar by id");
         return avatarRepository.getById(id);
     }
 
     @Override
     public List<Avatar> getAvatarPage(int page, int size) {
+        logger.info("Was invoked method to get the page of avatars by size");
         PageRequest pageRequest = PageRequest.of(page - 1, size);
         return avatarRepository.findAll(pageRequest).toList();
     }
 
     private Path createImageFilePath(MultipartFile avatarFile, Student student) throws IOException {
+        logger.info("Was invoked method to create an image file path");
         Path filePath = Path.of(avatarsDir, student + getExtension(Objects.requireNonNull(avatarFile.getOriginalFilename())));
         Files.createDirectories(filePath.getParent());
         Files.deleteIfExists(filePath);
@@ -71,6 +79,7 @@ public class AvatarServiceImpl implements AvatarService{
     }
 
     private void saveImageToFile(MultipartFile avatarFile, Path filePath) throws IOException {
+        logger.info("Was invoked method to save an image to file");
         try (
             BufferedInputStream bis = new BufferedInputStream(avatarFile.getInputStream(), IMAGE_BLOCK_BUFFER_SIZE);
             BufferedOutputStream bos = new BufferedOutputStream(Files.newOutputStream(filePath, CREATE_NEW), IMAGE_BLOCK_BUFFER_SIZE)
@@ -80,6 +89,7 @@ public class AvatarServiceImpl implements AvatarService{
     }
 
     private void updateAvatar(MultipartFile avatarFile, Student student, Path filePath, Avatar avatar) throws IOException {
+        logger.info("Was invoked method to update an avatar");
         avatar.setStudent(student);
         avatar.setFilePath(filePath.toString());
         avatar.setFileSize(avatarFile.getSize());
@@ -88,10 +98,12 @@ public class AvatarServiceImpl implements AvatarService{
     }
 
     private Avatar findOrCreateAvatar(Long id) {
+        logger.info("Was invoked method to find an avatar or create a new one");
         return avatarRepository.findByStudentId(id).orElse(new Avatar());
     }
 
     private String getExtension(String fileName) {
+        logger.info("Was invoked method to get extension");
         return fileName.substring(fileName.lastIndexOf(".") + 1);
     }
 
