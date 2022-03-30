@@ -10,4 +10,11 @@ select * from student
 where age > id;
 
 select * from student
-ORDER BY age;
+order by age;
+
+select * from student;
+
+select avg(age) from student;
+
+select * from student
+order by id desc limit 5;
