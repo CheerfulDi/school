@@ -44,6 +44,12 @@ public class FacultyController {
 
     }
 
+    @GetMapping("/find_the_longest_name")
+    public ResponseEntity<String> getTheLongestName() {
+        String longestName = facultyService.getTheLongestName();
+        return ResponseEntity.ok(longestName);
+    }
+
     @PutMapping
     public ResponseEntity<Faculty> editFaculty(@RequestBody Faculty faculty) {
         Faculty editedFaculty = facultyService.editFaculty(faculty);
