@@ -66,7 +66,11 @@ public class StudentServiceImpl implements StudentService{
     @Override
     public Integer getAverageStudentsAge() {
         logger.info("Was invoked method to find an average age of all students");
-        return studentRepository.getAverageStudentsAge();
+//        return studentRepository.getAverageStudentsAge();
+        return (int) studentRepository.findAll().stream()
+                .mapToInt(Student::getAge)
+                .average()
+                .orElse(0);
     }
 
     @Override
