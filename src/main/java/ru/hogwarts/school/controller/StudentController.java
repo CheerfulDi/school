@@ -94,6 +94,11 @@ public class StudentController {
         studentService.printStudentsNames();
     }
 
+    @GetMapping("/print_names_sync")
+    public void printStudentsNamesSync() {
+        studentService.printStudentsNamesSync();
+    }
+
     @PutMapping
     public ResponseEntity<Student> editStudent(@RequestBody Student student) {
         Student editedStudent = studentService.editStudent(student);

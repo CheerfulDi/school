@@ -11,9 +11,11 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class StudentServiceImpl implements StudentService{
+public class StudentServiceImpl implements StudentService {
 
     Logger logger = LoggerFactory.getLogger(StudentServiceImpl.class);
+
+    public final Object flag = new Object();
 
     private StudentRepository studentRepository;
 
@@ -95,25 +97,52 @@ public class StudentServiceImpl implements StudentService{
     public void printStudentsNames() {
         logger.info("Was invoked method to print all students names in console");
         System.out.println(studentRepository.getById(5L).getId() + " "
-                         + studentRepository.getById(5L).getName());
+                + studentRepository.getById(5L).getName());
         System.out.println(studentRepository.getById(6L).getId() + " "
-                         + studentRepository.getById(6L).getName());
+                + studentRepository.getById(6L).getName());
 
         new Thread(() -> {
             System.out.println(studentRepository.getById(7L).getId() + " "
-                             + studentRepository.getById(7L).getName());
+                    + studentRepository.getById(7L).getName());
             System.out.println(studentRepository.getById(8L).getId() + " "
-                             + studentRepository.getById(8L).getName());
+                    + studentRepository.getById(8L).getName());
 
         }).start();
 
         new Thread(() -> {
             System.out.println(studentRepository.getById(9L).getId() + " "
-                             + studentRepository.getById(9L).getName());
+                    + studentRepository.getById(9L).getName());
             System.out.println(studentRepository.getById(10L).getId() + " "
-                             + studentRepository.getById(10L).getName());
+                    + studentRepository.getById(10L).getName());
 
         }).start();
     }
 
+    @Override
+    public void printStudentsNamesSync() {
+        logger.info("Was invoked method to print all students names in console");
+
+        printNameById(5L);
+        printNameById(6L);
+
+        new Thread(() -> {
+            printNameById(7L);
+            printNameById(8L);
+
+        }).start();
+
+        new Thread(() -> {
+            printNameById(9L);
+            printNameById(10L);
+
+        }).start();
+
+    }
+
+    public void printNameById(Long id) {
+        synchronized (flag) {
+            System.out.println(studentRepository.getById(id).getId() + " "
+                    + studentRepository.getById(id).getName());
+        }
+    }
 }

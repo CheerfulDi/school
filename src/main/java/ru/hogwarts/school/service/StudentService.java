@@ -30,4 +30,6 @@ public interface StudentService {
 
     void printStudentsNames();
 
+    void printStudentsNamesSync();
+
 }
