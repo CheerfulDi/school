@@ -90,4 +90,30 @@ public class StudentServiceImpl implements StudentService{
                 .sorted()
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public void printStudentsNames() {
+        logger.info("Was invoked method to print all students names in console");
+        System.out.println(studentRepository.getById(5L).getId() + " "
+                         + studentRepository.getById(5L).getName());
+        System.out.println(studentRepository.getById(6L).getId() + " "
+                         + studentRepository.getById(6L).getName());
+
+        new Thread(() -> {
+            System.out.println(studentRepository.getById(7L).getId() + " "
+                             + studentRepository.getById(7L).getName());
+            System.out.println(studentRepository.getById(8L).getId() + " "
+                             + studentRepository.getById(8L).getName());
+
+        }).start();
+
+        new Thread(() -> {
+            System.out.println(studentRepository.getById(9L).getId() + " "
+                             + studentRepository.getById(9L).getName());
+            System.out.println(studentRepository.getById(10L).getId() + " "
+                             + studentRepository.getById(10L).getName());
+
+        }).start();
+    }
+
 }

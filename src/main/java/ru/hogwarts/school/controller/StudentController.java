@@ -89,6 +89,11 @@ public class StudentController {
         return ResponseEntity.ok(names);
     }
 
+    @GetMapping("/print_names")
+    public void printStudentsNames() {
+        studentService.printStudentsNames();
+    }
+
     @PutMapping
     public ResponseEntity<Student> editStudent(@RequestBody Student student) {
         Student editedStudent = studentService.editStudent(student);

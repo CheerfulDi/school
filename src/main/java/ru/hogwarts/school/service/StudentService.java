@@ -28,4 +28,6 @@ public interface StudentService {
 
     List<String> getStudentsNamesStartingWithA();
 
+    void printStudentsNames();
+
 }
